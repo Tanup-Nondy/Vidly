@@ -1,0 +1,38 @@
+﻿@using System.Reflection
+@model Vidly.ViewModel.NewCustomerFormModel
+@{
+    ViewBag.Title = "NewCustomer";
+}
+
+<h2>NewCustomer</h2>
+
+@using (Html.BeginForm("NewCustomerSave", "Customer"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Name)
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m=>m.Customer.Name)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Birthdate)
+        @Html.TextBoxFor(m => m.Customer.Birthdate, "{0:d MMM yyyy}", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.Birthdate)
+    </div>
+    <div class="checkbox">
+        @Html.CheckBoxFor(m => m.Customer.IsSubscribedToNewsLetter)Subscribed To Newsletter?
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.MembershipTypeId)
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "NameOfPackage"), "Select Membership Type", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
+    </div>
+    @Html.HiddenFor(m=>m.Customer.Id)
+    @Html.AntiForgeryToken()
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+<!--Client side validation-->
+@section scripts 
+{
+    @Scripts.Render("~/ bundles / jqueryval")
+}
